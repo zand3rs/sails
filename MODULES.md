@@ -4,7 +4,6 @@ Sails is a large project, with many modular components.  Each module is located 
 
 Below, you'll find an overview of the modules maintained by the core team and community members.
 
-## Balderdash team
 
 ### Core modules
 
@@ -12,9 +11,9 @@ Below, you'll find an overview of the modules maintained by the core team and co
 
 | Repo          |  Build Status (edge)                 |  Latest Stable Version   |
 |---------------|---------------------------------------|--------------------------|
-| <a href="http://github.com/balderdashy/sails" target="_blank" title="Github repo for Sails core"><img src="https://github-camo.global.ssl.fastly.net/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67" width=60 alt="Sails.js logo (small)"/></a>     | [![Build Status](https://travis-ci.org/balderdashy/sails.png?branch=master)](https://travis-ci.org/balderdashy/sails)  | [![NPM version](https://badge.fury.io/js/sails.png)](http://badge.fury.io/js/sails) |
+| <a href="http://github.com/balderdashy/sails" target="_blank" title="Github repo for Sails core"><img src="http://sailsjs.org/images/logos/sails-logo_ltBg_dkBlue.png" width=60 alt="Sails.js logo (small)"/></a>     | [![Build Status](https://travis-ci.org/balderdashy/sails.png?branch=master)](https://travis-ci.org/balderdashy/sails)  | [![NPM version](https://badge.fury.io/js/sails.png)](http://badge.fury.io/js/sails) |
 | [**waterline**](http://github.com/balderdashy/waterline) | [![Build Status](https://travis-ci.org/balderdashy/waterline.png?branch=master)](https://travis-ci.org/balderdashy/waterline) | [![NPM version](https://badge.fury.io/js/waterline.png)](http://badge.fury.io/js/waterline) |
-| [**anchor**](http://github.com/balderdashy/anchor) | [![Build Status](https://travis-ci.org/balderdashy/anchor.png?branch=master)](https://travis-ci.org/balderdashy/anchor) | [![NPM version](https://badge.fury.io/js/anchor.png)](http://badge.fury.io/js/anchor) |
+| [**anchor**](http://github.com/sailsjs/anchor) | [![Build Status](https://travis-ci.org/sailsjs/anchor.png?branch=master)](https://travis-ci.org/sailsjs/anchor) | [![NPM version](https://badge.fury.io/js/anchor.png)](http://badge.fury.io/js/anchor) |
 | [**waterline-criteria**](http://github.com/balderdashy/waterline-criteria) | [![Build Status](https://travis-ci.org/balderdashy/waterline-criteria.png?branch=master)](https://travis-ci.org/balderdashy/waterline-criteria) | [![NPM version](https://badge.fury.io/js/waterline-criteria.png)](http://badge.fury.io/js/waterline-criteria) |
 | [**waterline-errors**](http://github.com/vanetix/waterline-errors) | [![Build Status](https://travis-ci.org/vanetix/waterline-errors.svg?branch=master)](https://travis-ci.org/vanetix/waterline-errors) | [![NPM version](https://badge.fury.io/js/waterline-errors.png)](http://badge.fury.io/js/waterline-errors) |
 | [**waterline-schema**](http://github.com/balderdashy/waterline-schema) | [![Build Status](https://travis-ci.org/balderdashy/waterline-schema.svg?branch=master)](https://travis-ci.org/balderdashy/waterline-schema) | [![NPM version](https://badge.fury.io/js/waterline-schema.png)](http://badge.fury.io/js/waterline-schema) |
@@ -70,8 +69,13 @@ Below, you'll find an overview of the modules maintained by the core team and co
 
 ### Officially-supported hooks
 
-> Currently contained in core Sails repo.
+| Hook           | Repo       |  Build Status (edge)             | Purpose                  | Depends on...   |
+|----------------|------------|----------------------------------|--------------------------|-----------------|
+| `sockets`      | [sails-hook-sockets](https://github.com/balderdashy/sails-hook-sockets)  | [![Build Status](https://travis-ci.org/balderdashy/sails-hook-sockets.png?branch=master)](https://travis-ci.org/balderdashy/sails-hook-sockets)  | Implemments Socket.io support in Sails.  | `http`  |
+| `http`         | [`/lib/hooks/http`](https://github.com/balderdashy/sails/tree/master/lib/hooks/http)      | [![Build Status](https://travis-ci.org/balderdashy/sails.png?branch=master)](https://travis-ci.org/balderdashy/sails) | Implements basic HTTP server functionality. |  _n/a_ |
+| TODO: list other hooks currently contained in Sails core | _n/a_ | TODO | TODO | TODO |
 
+> The code for the hooks listed above without specific repos is currently contained in sub-folders within Sails core.  See [`lib/hooks/`](https://github.com/balderdashy/sails/tree/master/lib/hooks)
 
 ### Socket Client SDKs
 
@@ -100,9 +104,11 @@ Below, you'll find an overview of the modules maintained by the core team and co
 
 | Repo          |  Build Status (edge)  |  Latest Stable Version   | Platform |
 |---------------|---------------------------------------|--------------------------|------------|
+| [sails-orientdb](https://github.com/appscot/sails-orientdb) | [![Build Status](https://travis-ci.org/appscot/sails-orientdb.svg?branch=master)](https://travis-ci.org/appscot/sails-orientdb) | [![npm version](https://badge.fury.io/js/sails-orientdb.svg)](http://badge.fury.io/js/sails-orientdb) | OrientDB |
 | [sails-rest](https://github.com/zohararad/sails-rest) |  |  | REST |
 | [sails-oracle](https://github.com/mayconheerdt/sails-oracle) | | | Oracle |
-| [sails-mssql](https://github.com/swelham/sails-mssql) | | | MSSQL |
+| [sails-mssql](https://github.com/swelham/sails-mssql) | | | MSSQL (for sails@<=0.9.x) |
+| [sails-sqlserver](https://github.com/cnect/sails-sqlserver) | | | SQL Server |
 | [sails-neo4j](https://github.com/natgeo/sails-neo4j) | | | Neo4j |
 | [sails-sqlite3](https://github.com/AndrewJo/sails-sqlite3) | | | SQLite3 |
 | [sails-dynamodb](https://github.com/dohzoh/sails-dynamodb) | | | DynamoDB |
@@ -117,10 +123,11 @@ Below, you'll find an overview of the modules maintained by the core team and co
 | [sails-nedb](https://github.com/balderdashy/sails-riak) | | | NeDB |
 | [sails-parse](https://github.com/tskaggs/sails-parse) | | | Parse |
 | [sails-tingo](https://github.com/andyhu/sails-tingo) | | | TingoDB |
-| [sails-orientdb](https://github.com/appscot/sails-orientdb) | [![Build Status](https://travis-ci.org/appscot/sails-orientdb.svg?branch=master)](https://travis-ci.org/appscot/sails-orientdb) | [![npm version](https://badge.fury.io/js/sails-orientdb.svg)](http://badge.fury.io/js/sails-orientdb) | OrientDB |
 
 
 #### Generators
+
+> Note that this section will be migrating to https://github.com/balderdashy/sails-docs/concepts/extending-sails/Generators/generatorList.md for consistency.
 
 | Repo                   | Build Status (edge)  |
 |------------------------|----------------------|

@@ -18,6 +18,7 @@ var spawn = require('child_process').spawn;
 var Sails = require('../../../lib/app');
 var io = require('./sails.io.js')(require('socket.io-client'));
 io.sails.environment = "production";
+io.sails.autoConnect = false;
 
 // Make existsSync not crash on older versions of Node
 fs.existsSync = fs.existsSync || path.existsSync;
@@ -53,7 +54,7 @@ module.exports.build = function( /* [appName], done */ ) {
 
   process.chdir(appName);
 
-	exec(sailsBin + ' new', function(err) {
+	exec('node ' + sailsBin + ' new', function(err) {
 		if (err) return done(err);
 		var fixtures = wrench.readdirSyncRecursive('../test/integration/fixtures/sampleapp');
 		if (fixtures.length < 1) return done();
@@ -123,10 +124,7 @@ module.exports.lift = function(options, callback) {
 	options = options || {};
 	_.defaults(options, {
 		port: 1342,
-    environment: process.env.TEST_ENV,
-    process: {
-      removeAllListeners: true
-    }
+    environment: process.env.TEST_ENV
 	});
 
 	Sails().lift(options, function(err, sails) {

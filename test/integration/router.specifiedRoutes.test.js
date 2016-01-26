@@ -35,9 +35,7 @@ describe('router :: ', function() {
 		});
 
 		after(function() {
-			// console.log('before `chdir ../`' + ', cwd was :: ' + process.cwd());
 			process.chdir('../');
-			// console.log('after `chdir ../`' + ', cwd was :: ' + process.cwd());
 			appHelper.teardown();
 		});
 
@@ -49,9 +47,9 @@ describe('router :: ', function() {
 						controller: 'test',
 						action: 'verb'
 					}
-				});				
+				});
 			});
-			
+
 			it('should respond to get requests', function(done) {
 
 
@@ -102,7 +100,7 @@ describe('router :: ', function() {
 						controller: 'test',
 						action: 'verb'
 					}
-				});				
+				});
 			});
 
 			it('should respond to get requests', function(done) {
@@ -178,7 +176,7 @@ describe('router :: ', function() {
 						controller: 'test',
 						action: 'verb'
 					}
-				});				
+				});
 			});
 
 			it('should respond to delete requests', function(done) {
@@ -241,7 +239,7 @@ describe('router :: ', function() {
 					assert(response.body === 'get', Err.badResponse(response));
 					done();
 				});
-			})
+			});
 		});
 
 		describe('should accept case-insensitive controller key', function() {

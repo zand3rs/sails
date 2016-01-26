@@ -25,9 +25,7 @@ describe('router :: ', function() {
 		});
 
 		after(function() {
-			// console.log('before `chdir ../`' + ', cwd was :: ' + process.cwd());
 			process.chdir('../');
-			// console.log('after `chdir ../`' + ', cwd was :: ' + process.cwd());
 			appHelper.teardown();
 		});
 
@@ -39,9 +37,20 @@ describe('router :: ', function() {
 					if (err) return done(new Error(err));
 
 					assert(response.body.indexOf('not found') < 0);
+					assert(response.body.indexOf('<!-- Default home page -->') > -1);
 					done();
 				});
 			});
+
+			it('should wrap the view in the default layout', function(done) {
+
+				httpHelper.testRoute('get', '', function(err, response) {
+					if (err) return done(new Error(err));
+					assert(response.body.indexOf('<html>') > -1);
+					done();
+				});
+			});
+
 		});
 
 		describe('with no specified routing', function() {
@@ -53,7 +62,7 @@ describe('router :: ', function() {
 			it('should respond to get request to :controller with the template at views/:controller/index.ejs', function(done) {
 
 				// Empty router file
-				
+
 				httpHelper.testRoute('get', 'viewTest', function(err, response) {
 					if (err) return done(new Error(err));
 

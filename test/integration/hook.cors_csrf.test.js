@@ -27,14 +27,12 @@ describe('CORS and CSRF ::', function() {
   describe('CORS config ::', function() {
 
     before(function(done) {
-      this.timeout(5000);
+      this.timeout(15000);
       appHelper.build(done);
     });
 
     after(function() {
-      // console.log('before `chdir ../`' + ', cwd was :: ' + process.cwd());
       process.chdir('../');
-      // console.log('after `chdir ../`' + ', cwd was :: ' + process.cwd());
       appHelper.teardown();
     });
 
@@ -87,8 +85,26 @@ describe('CORS and CSRF ::', function() {
           }, function(err, response) {
             if (err) return done(new Error(err));
             var body = response.body.split(',').sort().join(',');
+
+            // Get the expected methods, either from Node herself (if available) or else from
+            // what we know Express will get from the "methods" dependency
+            var expected = (function() {
+              var methods;
+              if (require('http').METHODS) {
+                methods = require('http').METHODS.reduce(function(memo, method){
+                  if (method.toUpperCase() != 'OPTIONS') {
+                    memo.push(method.toUpperCase());
+                  }
+                  return memo;
+                }, []).sort().join(',');
+              } else {
+                methods = 'CHECKOUT,CONNECT,COPY,DELETE,GET,HEAD,LOCK,M-SEARCH,MERGE,MKACTIVITY,MKCOL,MOVE,NOTIFY,PATCH,POST,PROPFIND,PROPPATCH,PURGE,PUT,REPORT,SEARCH,SUBSCRIBE,TRACE,UNLOCK,UNSUBSCRIBE';
+              }
+              return methods;
+            })();
+
             assert.equal(response.statusCode, 200);
-            assert.equal(body, 'CHECKOUT,CONNECT,COPY,DELETE,GET,HEAD,LOCK,M-SEARCH,MERGE,MKACTIVITY,MKCOL,MOVE,NOTIFY,PATCH,POST,PROPFIND,PROPPATCH,PURGE,PUT,REPORT,SEARCH,SUBSCRIBE,TRACE,UNLOCK,UNSUBSCRIBE', require('util').format('Unexpected HTTP methods:  "%s"', response.body));
+            assert.equal(body, expected, require('util').format('\nExpected methods: %s\nActual methods:  ', expected, response.body));
             done();
           });
 
@@ -672,14 +688,12 @@ describe('CORS and CSRF ::', function() {
   describe("CSRF config ::", function () {
 
     before(function(done) {
-      this.timeout(5000);
+      this.timeout(15000);
       appHelper.build(done);
     });
 
     after(function() {
-      // console.log('before `chdir ../`' + ', cwd was :: ' + process.cwd());
       process.chdir('../');
-      // console.log('after `chdir ../`' + ', cwd was :: ' + process.cwd());
       appHelper.teardown();
     });
 
@@ -884,12 +898,39 @@ describe('CORS and CSRF ::', function() {
 
     });
 
+    describe("with CSRF set to true and sessions disabled", function() {
+
+      before(function() {
+        fs.writeFileSync(path.resolve('../', appName, 'config/csrf.js'), "module.exports.csrf = true;");
+        fs.writeFileSync(path.resolve('../', appName, 'config/killsession.js'), "module.exports.http = {middleware: {session: function(req, res, next) {return next();}}};");
+      });
+
+      it("a POST request on /user without a CSRF token should result in a 201 response", function (done) {
+        httpHelper.testRoute("post", 'user', function (err, response) {
+          if (err) return done(new Error(err));
+          assert.equal(response.statusCode, 201);
+          done();
+        });
+
+      });
+
+      it("a POST request on /test without a CSRF token should result in a 200 response", function (done) {
+        httpHelper.testRoute("post", 'test', function (err, response) {
+          if (err) return done(new Error(err));
+          assert.equal(response.statusCode, 200);
+          done();
+        });
+
+      });
+
+    });
+
   });
 
   describe("CORS+CSRF ::", function () {
 
     before(function(done) {
-      this.timeout(5000);
+      this.timeout(15000);
       appHelper.build(function() {
         // Add a CORS config that should be IGNORED by the CSRF hook, which does its own CORS handling
         // If this isn't being ignored properly, then errors should occur when requesting /csrfToken from a different origin
@@ -899,9 +940,7 @@ describe('CORS and CSRF ::', function() {
     });
 
     after(function() {
-      // console.log('before `chdir ../`' + ', cwd was :: ' + process.cwd());
       process.chdir('../');
-      // console.log('after `chdir ../`' + ', cwd was :: ' + process.cwd());
       appHelper.teardown();
     });
 
